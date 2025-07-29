@@ -24,7 +24,18 @@ const createBook = async (req, res, next) => {
 
 const getOneBook = async (req, res, next) => {
   try {
-  } catch (error) {}
+    const { id } = req.params;
+    const getBook = await book.findUnique({ where: { id } });
+
+    if (!getBook) {
+      res.code = 404;
+      throw new Error("Book not found");
+    }
+
+    res.status(200).json({ message: "success", data: getBook });
+  } catch (error) {
+    next(error);
+  }
 };
 const getAllbooks = async (req, res, next) => {
   try {

@@ -40,6 +40,16 @@ const createAndLoginUser = async () => {
   return data;
 };
 
+const createBook = async () => {
+  const login = await createAndLoginUser();
+  const data = await request(app)
+    .post(endpointBook)
+    .send(bookData)
+    .set("Authorization", `Bearer ${login.token}`);
+
+  return data;
+};
+
 describe("BOOK API", () => {
   it("should be able to create book", async () => {
     const login = await createAndLoginUser();
@@ -49,5 +59,14 @@ describe("BOOK API", () => {
       .set("Authorization", `Bearer ${login.token}`);
 
     expect(res.status).toBe(201);
+  });
+
+  it("should be able to get one book", async () => {
+    const login = await createAndLoginUser();
+    const create = await createBook();
+    const res = await request(app)
+      .get(`${endpointBook}/${create.body.data.id}`)
+      .set("Authorization", `Bearer ${login.token}`);
+    expect(res.status).toBe(200);
   });
 });
