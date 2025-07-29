@@ -1,0 +1,54 @@
+const { book } = require("../config/prisma");
+
+const createBook = async (req, res, next) => {
+  try {
+    const { title, description } = req.body;
+    const { id } = req.user;
+    const newBook = await book.create({
+      data: {
+        title,
+        description,
+        author_id: id,
+      },
+    });
+
+    res.status(201).json({
+      status: "success",
+      message: "Book created successfully",
+      data: newBook,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getOneBook = async (req, res, next) => {
+  try {
+  } catch (error) {}
+};
+const getAllbooks = async (req, res, next) => {
+  try {
+    res.status(200).json({ message: "kosong" });
+  } catch (error) {}
+};
+
+const updateBook = async (req, res, next) => {
+  try {
+  } catch (error) {}
+};
+const deleteBook = async (req, res, next) => {
+  try {
+  } catch (error) {}
+};
+const _clearBooks = async (req, res, next) => {
+  await book.deleteMany();
+};
+
+module.exports = {
+  createBook,
+  getOneBook,
+  getAllbooks,
+  updateBook,
+  deleteBook,
+  _clearBooks,
+};
