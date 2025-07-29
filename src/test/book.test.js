@@ -61,6 +61,7 @@ describe("BOOK API", () => {
     expect(res.status).toBe(201);
   });
 
+  //get one
   it("should be able to get one book", async () => {
     const login = await createAndLoginUser();
     const create = await createBook();
@@ -68,5 +69,28 @@ describe("BOOK API", () => {
       .get(`${endpointBook}/${create.body.data.id}`)
       .set("Authorization", `Bearer ${login.token}`);
     expect(res.status).toBe(200);
+  });
+
+  //get all
+  it("should be able to get all books", async () => {
+    const login = await createAndLoginUser();
+    const create = await createBook();
+    const res = await request(app)
+      .get(endpointBook)
+      .set("Authorization", `Bearer ${login.token}`);
+
+    expect(res.status).toBe(200);
+  });
+
+  //update
+  it("should be able to update book", async () => {
+    const login = await createAndLoginUser();
+    const create = await createBook();
+    const res = await request(app)
+      .put(`${endpointBook}/${create.body.data.id}`)
+      .send(bookData)
+      .set("Authorization", `Bearer ${login.token}`);
+    expect(res.status).toBe(200);
+    expect(res.body.data).toBeDefined();
   });
 });

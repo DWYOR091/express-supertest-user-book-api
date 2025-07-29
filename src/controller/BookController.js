@@ -39,13 +39,26 @@ const getOneBook = async (req, res, next) => {
 };
 const getAllbooks = async (req, res, next) => {
   try {
-    res.status(200).json({ message: "kosong" });
-  } catch (error) {}
+    const books = await book.findMany({});
+    res.status(200).json({ message: "success", data: books });
+  } catch (error) {
+    next(error);
+  }
 };
 
 const updateBook = async (req, res, next) => {
   try {
-  } catch (error) {}
+    const { id } = req.params;
+    const { title, description } = req.body;
+    const updateData = await book.update({
+      where: { id },
+      data: { title, description },
+    });
+
+    res.status(200).json({ message: "success", data: updateData });
+  } catch (error) {
+    next(error);
+  }
 };
 const deleteBook = async (req, res, next) => {
   try {
