@@ -50,8 +50,9 @@ const updateBook = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { title, description } = req.body;
+    const bookData = await _findBook(id);
     const updateData = await book.update({
-      where: { id },
+      where: { id: bookData.id },
       data: { title, description },
     });
 
@@ -62,7 +63,22 @@ const updateBook = async (req, res, next) => {
 };
 const deleteBook = async (req, res, next) => {
   try {
-  } catch (error) {}
+    const { id } = req.params;
+    const bookData = await _findBook(id);
+    await book.delete({ where: { id: bookData.id } });
+    res.status(200).json({ message: true, data: bookData });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const _findBook = async (id) => {
+  const bookData = await book.findFirst({ where: { id } });
+  if (!bookData) {
+    res.code = 404;
+    throw new Error("Book not found");
+  }
+  return bookData;
 };
 const _clearBooks = async (req, res, next) => {
   await book.deleteMany();

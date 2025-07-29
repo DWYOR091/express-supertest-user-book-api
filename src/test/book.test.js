@@ -93,4 +93,16 @@ describe("BOOK API", () => {
     expect(res.status).toBe(200);
     expect(res.body.data).toBeDefined();
   });
+
+  //delete
+  it("should be able to delete book", async () => {
+    const login = await createAndLoginUser();
+    const create = await createBook();
+    const res = await request(app)
+      .delete(`${endpointBook}/${create.body.data.id}`)
+      .set("Authorization", `Bearer ${login.token}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body).toMatchObject({ message: true });
+  });
 });

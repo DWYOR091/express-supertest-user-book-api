@@ -4,6 +4,7 @@ const {
   createBook,
   updateBook,
   getOneBook,
+  deleteBook,
 } = require("../controller/BookController");
 const isAuthPassport = require("../middleware/isAuthPassport");
 const isRole = require("../middleware/isRole");
@@ -15,6 +16,6 @@ router
 router
   .get("/:id", getOneBook)
   .put("/:id", updateBook)
-  .delete("/:id", updateBook);
+  .delete("/:id", deleteBook);
 
 module.exports = router;
