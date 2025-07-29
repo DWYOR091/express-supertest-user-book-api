@@ -114,10 +114,10 @@ describe("API Users", () => {
     expect(res.body).toHaveProperty("data");
   });
 
-  //test
-  // test("should return 401 if no token is provided", async () => {
-  //   const res = await request(app).get(endpointUser + "/currentUser");
-  //   expect(res.status).toBe(401);
-  //   expect(res.body).toEqual({ message: "Unauthorized" });
-  // });
+  //error test
+  test("should return 401 if no token is provided", async () => {
+    const res = await request(app).get(endpointUser + "/currentUser");
+    expect(res.statusCode).toBe(401);
+    expect(res.text).toBe("Unauthorized");
+  });
 });

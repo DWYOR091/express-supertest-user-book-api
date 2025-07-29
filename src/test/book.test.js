@@ -105,4 +105,16 @@ describe("BOOK API", () => {
     expect(res.status).toBe(200);
     expect(res.body).toMatchObject({ message: true });
   });
+
+  //not found error
+  it("should return 404 if book not found", async () => {
+    const login = await createAndLoginUser();
+    await createBook();
+    const res = await request(app)
+      .get(`${endpointBook}/abcdefg`)
+      .set("Authorization", `Bearer ${login.token}`);
+
+    expect(res.statusCode).toBe(404);
+    expect(res.body).toMatchObject({ message: "Book not found" });
+  });
 });
